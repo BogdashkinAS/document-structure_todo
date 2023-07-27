@@ -1,9 +1,9 @@
 const taskInput = document.getElementById('task__input')
 const taskList = document.getElementById('tasks__list')
+const tasksAdd = document.getElementById('tasks__add')
 
 function removeElement() {
   const taskRemove = Array.from(document.querySelectorAll('.task__remove'))
-  console.log(taskRemove)
   taskRemove.forEach((task) => {
     task.addEventListener('click', (event) => {
       event.preventDefault()
@@ -14,25 +14,25 @@ function removeElement() {
 }
 
 function inputElement() {
-  taskInput.addEventListener('keyup', (event) => {
-    event.preventDefault()
-    if (event.code == 'Enter' || event.code == 'NumpadEnter') {
-        if (taskInput.value != '') {
-            let text = taskInput.value
-            console.log(text, event.code)
-            taskList.innerHTML += `
-            <div class="task">
-              <div class="task__title">
-                ${text}
-              </div>
-              <a href="#" class="task__remove">&times;</a>
-            </div>
-            `
-        taskInput.value = ''
-        }
+  tasksAdd.addEventListener('click', (event) => {
+    let text = taskInput.value.trim()
+    if (text.length != 0) {
+      let htmlCode = `
+      <div class="task">
+        <div class="task__title">
+          ${text}
+        </div>
+        <a href="#" class="task__remove">&times;</a>
+      </div>
+      `
+      taskList.insertAdjacentHTML('afterEnd', htmlCode)
+      taskInput.value = ''
+    } else {
+        console.log('Строка не может быть пустой!')
     }
     removeElement()
-})
+    event.preventDefault()
+  })
 }
 
 inputElement()
